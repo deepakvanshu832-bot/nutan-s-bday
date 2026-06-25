@@ -1,123 +1,145 @@
-:root {
-        --neon-pink: #ff007f;
-        --neon-blue: #00f2ff;
-        --neon-purple: #9d00ff;
-        --gold: #ffd700;
-        --peach: #ffdab9;
-        --bg-dark: #0f1923;
-    }
+This is a complete, single-file HTML solution designed with a warm, pastel, and interactive aesthetic. It uses a "single-page application" style structure where sections act as pages, controlled by JavaScript for smooth transitions.
 
-    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
-    body { background: var(--bg-dark); color: white; overflow: hidden; height: 100vh; display: flex; align-items: center; justify-content: center; }
+You can save this code as `birthday.html` and open it in any web browser. **Note:** Ensure your 11 images (named `photo1.jpg` through `photo11.jpg`) are in the same folder as this file.
 
-    .slide { position: absolute; width: 100%; height: 100%; display: none; flex-direction: column; align-items: center; justify-content: center; padding: 20px; opacity: 0; transition: opacity 0.8s ease; }
-    .slide.active { display: flex; opacity: 1; }
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happiest Birthday, Saavage Nutan!</title>
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;700&family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --soft-pink: #ffd1dc;
+            --peach: #ffdab9;
+            --lavender: #e6e6fa;
+            --sky: #87ceeb;
+            --cream: #fffdd0;
+            --text: #5d4037;
+        }
 
-    .glass { background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(15px); border: 2px solid rgba(255, 255, 255, 0.2); border-radius: 20px; padding: 30px; text-align: center; box-shadow: 0 8px 32px rgba(0,0,0,0.3); }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Quicksand', sans-serif; background: linear-gradient(135deg, var(--soft-pink), var(--peach)); color: var(--text); overflow-x: hidden; }
 
-    .btn { padding: 15px 30px; background: linear-gradient(45deg, var(--neon-pink), var(--neon-purple)); border: none; border-radius: 50px; color: white; font-weight: bold; cursor: pointer; margin-top: 20px; text-transform: uppercase; letter-spacing: 2px; transition: 0.3s; }
-    .btn:hover { transform: scale(1.1); box-shadow: 0 0 20px var(--neon-pink); }
+        .page { height: 100vh; width: 100vw; display: none; flex-direction: column; align-items: center; justify-content: center; padding: 20px; text-align: center; position: relative; }
+        .page.active { display: flex; animation: fadeIn 0.8s ease; }
 
-    .photo-frame { width: 250px; height: 250px; border: 4px solid var(--neon-blue); border-radius: 20px; margin-bottom: 20px; background: #333; overflow: hidden; box-shadow: 0 0 15px var(--neon-blue); }
-    .photo-frame img { width: 100%; height: 100%; object-fit: cover; }
+        @keyframes fadeIn { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
 
-    .nav-btns { position: absolute; bottom: 30px; display: flex; gap: 20px; }
-    
-    .sparkle { position: absolute; pointer-events: none; animation: float 3s infinite ease-in-out; }
-    @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-20px); } }
+        h1 { font-family: 'Dancing Script', cursive; font-size: 3rem; margin-bottom: 20px; color: #d81b60; text-shadow: 2px 2px 4px rgba(255,255,255,0.8); }
+        
+        .photo-frame { width: 200px; height: 200px; border: 5px solid white; border-radius: 20px; object-fit: cover; box-shadow: 0 10px 20px rgba(0,0,0,0.1); transition: transform 0.3s; }
+        .photo-frame:hover { transform: rotate(5deg) scale(1.05); }
 
-    h1 { font-size: 3rem; background: linear-gradient(to right, #ff007f, #ffd700); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-    
-    .rank-card { border: 2px solid var(--gold); padding: 20px; border-radius: 10px; background: rgba(255, 215, 0, 0.1); }
-</style>
-<div id="slides-container">
-    <div class="slide active">
-        <div class="glass">
-            <h1>AGENT: SAAVAGE NUTAN</h1>
-            <p>Status: Birthday Protocol Initiated</p>
-            <button class="btn" onclick="nextSlide()">Initialize Mission</button>
+        .btn { padding: 15px 30px; background: var(--sky); border: none; border-radius: 30px; color: white; font-weight: bold; cursor: pointer; margin-top: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+        .nav-btns { position: fixed; bottom: 30px; display: flex; gap: 20px; }
+
+        /* Unique Section Styles */
+        .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; }
+        .card { background: rgba(255,255,255,0.6); padding: 20px; border-radius: 15px; backdrop-filter: blur(5px); }
+    </style>
+</head>
+<body>
+
+<div id="pages">
+    <div class="page active" id="page0">
+        <h1>Happiest Birthday, Saavage Nutan!</h1>
+        <p>A day as special as you are.</p>
+        <button class="btn" onclick="nextPage()">Start the Celebration!</button>
+    </div>
+
+    <div class="page" id="page1">
+        <h1>Celebrating You!</h1>
+        <div class="card">🎈🎂✨</div>
+        <p>May your day be filled with endless joy.</p>
+    </div>
+
+    <div class="page" id="page2">
+        <h1>Scrapbook Memories</h1>
+        <img src="photo1.jpg" class="photo-frame" onerror="this.style.display='none'">
+        <p>Capturing beautiful moments.</p>
+    </div>
+
+    <div class="page" id="page3">
+        <h1>A Heartfelt Note</h1>
+        <div class="card" style="max-width: 500px;">
+            "To my dear friend, may your path always be lit with happiness and success. You bring so much light to everyone around you."
         </div>
     </div>
 
-    <div class="slide">
-        <div class="glass">
-            <div class="photo-frame"><img src="photo1.jpg" alt="Saavage"></div>
-            <h2>Legendary Operator</h2>
+    <div class="page" id="page4">
+        <h1>Photo Gallery</h1>
+        <div class="grid">
+            <img src="photo2.jpg" style="width: 80px; height: 80px; border-radius: 50%;">
+            <img src="photo3.jpg" style="width: 80px; height: 80px; border-radius: 50%;">
+            <img src="photo4.jpg" style="width: 80px; height: 80px; border-radius: 50%;">
         </div>
     </div>
 
-    <div class="glass slide">
-        <h2>Friendship Level Up!</h2>
-        <p>Your kindness is our greatest ability.</p>
+    <div class="page" id="page5">
+        <h1>Our Journey</h1>
+        <p>Through the laughs, the late nights, and the great times.</p>
     </div>
 
-    <div class="slide">
-        <div class="glass">
-            <div style="display:flex; gap: 10px;">
-                <div class="photo-frame" style="width:100px; height:100px;"><img src="photo2.jpg"></div>
-                <div class="photo-frame" style="width:100px; height:100px;"><img src="photo3.jpg"></div>
-            </div>
-            <h3>Memory Bank</h3>
-        </div>
+    <div class="page" id="page6">
+        <h1>Birthday Wishes</h1>
+        <div class="card">"Stay exactly as you are—amazing."</div>
     </div>
 
-    <div class="slide">
-        <div class="glass rank-card">
-            <h2>RANK: ETERNAL FRIEND</h2>
-            <p>Skill Ceiling: Infinite</p>
-        </div>
+    <div class="page" id="page7">
+        <h1>Time to Party!</h1>
+        <button class="btn" onclick="alert('Confetti Burst! 🎉')">Click for Confetti</button>
     </div>
 
-    <div class="slide">
-        <div class="glass">
-            <h2>You are the spike to my heart!</h2>
-        </div>
+    <div class="page" id="page8">
+        <h1>Snapshot Highlights</h1>
+        <img src="photo5.jpg" class="photo-frame">
     </div>
 
-    <div class="slide">
-        <div class="glass">
-            <div class="photo-frame"><img src="photo4.jpg"></div>
-            <p>Carousel of Joy</p>
-        </div>
+    <div class="page" id="page9">
+        <h1>A Letter to You</h1>
+        <div class="card">Dear Saavage Nutan, you are a gem...</div>
     </div>
 
-    <div class="slide">
-        <div class="glass">
-            <h3>Wish Wall</h3>
-            <p>May your year be full of aces and wins!</p>
-        </div>
-    </div>
-
-    <div class="slide">
-        <div class="glass">
-            <h1>CELEBRATION MODE</h1>
-            <p>Confetti Incoming...</p>
-        </div>
-    </div>
-
-    <div class="slide">
-        <div class="glass">
-            <h1>Happy Birthday, Saavage Nutan!</h1>
-            <p>Stay awesome, stay legendary.</p>
-        </div>
+    <div class="page" id="page10">
+        <h1>Happiest Birthday, Saavage Nutan!</h1>
+        <p>May your smile always shine brighter than every candle today.</p>
+        <img src="photo11.jpg" class="photo-frame">
     </div>
 </div>
 
 <div class="nav-btns">
-    <button class="btn" onclick="prevSlide()">Back</button>
-    <button class="btn" onclick="nextSlide()">Next</button>
+    <button onclick="prevPage()">Back</button>
+    <button onclick="nextPage()">Next</button>
 </div>
 
 <script>
-    let current = 0;
-    const slides = document.querySelectorAll('.slide');
+    let currentPage = 0;
+    const totalPages = 11;
 
-    function showSlide(n) {
-        slides.forEach(s => s.classList.remove('active'));
-        current = (n + slides.length) % slides.length;
-        slides[current].classList.add('active');
+    function showPage(n) {
+        document.querySelectorAll('.page').forEach((p, i) => {
+            p.classList.toggle('active', i === n);
+        });
     }
 
-    function nextSlide() { showSlide(current + 1); }
-    function prevSlide() { showSlide(current - 1); }
+    function nextPage() {
+        if (currentPage < totalPages - 1) {
+            currentPage++;
+            showPage(currentPage);
+        }
+    }
+
+    function prevPage() {
+        if (currentPage > 0) {
+            currentPage--;
+            showPage(currentPage);
+        }
+    }
 </script>
+</body>
+</html>
+
+```
