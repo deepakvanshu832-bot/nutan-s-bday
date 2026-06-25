@@ -1,0 +1,123 @@
+:root {
+        --neon-pink: #ff007f;
+        --neon-blue: #00f2ff;
+        --neon-purple: #9d00ff;
+        --gold: #ffd700;
+        --peach: #ffdab9;
+        --bg-dark: #0f1923;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
+    body { background: var(--bg-dark); color: white; overflow: hidden; height: 100vh; display: flex; align-items: center; justify-content: center; }
+
+    .slide { position: absolute; width: 100%; height: 100%; display: none; flex-direction: column; align-items: center; justify-content: center; padding: 20px; opacity: 0; transition: opacity 0.8s ease; }
+    .slide.active { display: flex; opacity: 1; }
+
+    .glass { background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(15px); border: 2px solid rgba(255, 255, 255, 0.2); border-radius: 20px; padding: 30px; text-align: center; box-shadow: 0 8px 32px rgba(0,0,0,0.3); }
+
+    .btn { padding: 15px 30px; background: linear-gradient(45deg, var(--neon-pink), var(--neon-purple)); border: none; border-radius: 50px; color: white; font-weight: bold; cursor: pointer; margin-top: 20px; text-transform: uppercase; letter-spacing: 2px; transition: 0.3s; }
+    .btn:hover { transform: scale(1.1); box-shadow: 0 0 20px var(--neon-pink); }
+
+    .photo-frame { width: 250px; height: 250px; border: 4px solid var(--neon-blue); border-radius: 20px; margin-bottom: 20px; background: #333; overflow: hidden; box-shadow: 0 0 15px var(--neon-blue); }
+    .photo-frame img { width: 100%; height: 100%; object-fit: cover; }
+
+    .nav-btns { position: absolute; bottom: 30px; display: flex; gap: 20px; }
+    
+    .sparkle { position: absolute; pointer-events: none; animation: float 3s infinite ease-in-out; }
+    @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-20px); } }
+
+    h1 { font-size: 3rem; background: linear-gradient(to right, #ff007f, #ffd700); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    
+    .rank-card { border: 2px solid var(--gold); padding: 20px; border-radius: 10px; background: rgba(255, 215, 0, 0.1); }
+</style>
+<div id="slides-container">
+    <div class="slide active">
+        <div class="glass">
+            <h1>AGENT: SAAVAGE NUTAN</h1>
+            <p>Status: Birthday Protocol Initiated</p>
+            <button class="btn" onclick="nextSlide()">Initialize Mission</button>
+        </div>
+    </div>
+
+    <div class="slide">
+        <div class="glass">
+            <div class="photo-frame"><img src="photo1.jpg" alt="Saavage"></div>
+            <h2>Legendary Operator</h2>
+        </div>
+    </div>
+
+    <div class="glass slide">
+        <h2>Friendship Level Up!</h2>
+        <p>Your kindness is our greatest ability.</p>
+    </div>
+
+    <div class="slide">
+        <div class="glass">
+            <div style="display:flex; gap: 10px;">
+                <div class="photo-frame" style="width:100px; height:100px;"><img src="photo2.jpg"></div>
+                <div class="photo-frame" style="width:100px; height:100px;"><img src="photo3.jpg"></div>
+            </div>
+            <h3>Memory Bank</h3>
+        </div>
+    </div>
+
+    <div class="slide">
+        <div class="glass rank-card">
+            <h2>RANK: ETERNAL FRIEND</h2>
+            <p>Skill Ceiling: Infinite</p>
+        </div>
+    </div>
+
+    <div class="slide">
+        <div class="glass">
+            <h2>You are the spike to my heart!</h2>
+        </div>
+    </div>
+
+    <div class="slide">
+        <div class="glass">
+            <div class="photo-frame"><img src="photo4.jpg"></div>
+            <p>Carousel of Joy</p>
+        </div>
+    </div>
+
+    <div class="slide">
+        <div class="glass">
+            <h3>Wish Wall</h3>
+            <p>May your year be full of aces and wins!</p>
+        </div>
+    </div>
+
+    <div class="slide">
+        <div class="glass">
+            <h1>CELEBRATION MODE</h1>
+            <p>Confetti Incoming...</p>
+        </div>
+    </div>
+
+    <div class="slide">
+        <div class="glass">
+            <h1>Happy Birthday, Saavage Nutan!</h1>
+            <p>Stay awesome, stay legendary.</p>
+        </div>
+    </div>
+</div>
+
+<div class="nav-btns">
+    <button class="btn" onclick="prevSlide()">Back</button>
+    <button class="btn" onclick="nextSlide()">Next</button>
+</div>
+
+<script>
+    let current = 0;
+    const slides = document.querySelectorAll('.slide');
+
+    function showSlide(n) {
+        slides.forEach(s => s.classList.remove('active'));
+        current = (n + slides.length) % slides.length;
+        slides[current].classList.add('active');
+    }
+
+    function nextSlide() { showSlide(current + 1); }
+    function prevSlide() { showSlide(current - 1); }
+</script>
